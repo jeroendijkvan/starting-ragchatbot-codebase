@@ -7,13 +7,13 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Course Materials Assistant</title>
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Course Materials Assistant</h1>
-            <p class="subtitle">Ask questions about courses, instructors, and content</p>
+            <button id="newChatButton" class="new-chat-btn">+ New Chat</button>
         </header>
 
         <div class="main-content">
@@ -39,7 +39,7 @@
 
                 <!-- Suggested Questions -->
                 <div class="sidebar-section">
-                    <details class="suggested-collapsible">
+                    <details class="suggested-collapsible" open>
                         <summary class="suggested-header">Try asking:</summary>
                         <div class="suggested-items">
                             <button class="suggested-item" data-question="What is the outline of the &quot;MCP: Build Rich-Context AI Apps with Anthropic&quot; course?">Outline of a course</button>
@@ -56,18 +56,20 @@
                 <div class="chat-container">
                     <div id="chatMessages" class="chat-messages"></div>
                     <div class="chat-input-container">
-                        <input 
-                            type="text" 
-                            id="chatInput" 
-                            placeholder="Ask about courses, lessons, or specific content..."
-                            autocomplete="off"
-                        >
-                        <button id="sendButton">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </button>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="chatInput"
+                                placeholder="Ask about courses, lessons, or specific content..."
+                                autocomplete="off"
+                            >
+                            <button id="sendButton">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -76,6 +78,6 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=10"></script>
 </body>
 </html>

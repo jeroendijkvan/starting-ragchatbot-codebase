@@ -5,7 +5,7 @@ const API_URL = '/api';
 let currentSessionId = null;
 
 // DOM elements
-let chatMessages, chatInput, sendButton, totalCourses, courseTitles;
+let chatMessages, chatInput, sendButton, newChatButton, totalCourses, courseTitles;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages = document.getElementById('chatMessages');
     chatInput = document.getElementById('chatInput');
     sendButton = document.getElementById('sendButton');
+    newChatButton = document.getElementById('newChatButton');
     totalCourses = document.getElementById('totalCourses');
     courseTitles = document.getElementById('courseTitles');
     
@@ -28,6 +29,7 @@ function setupEventListeners() {
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
+    newChatButton.addEventListener('click', createNewSession);
     
     
     // Suggested questions
@@ -99,11 +101,14 @@ function createLoadingMessage() {
     const messageDiv = document.createElement('div');
     messageDiv.className = 'message assistant';
     messageDiv.innerHTML = `
-        <div class="message-content">
-            <div class="loading">
-                <span></span>
-                <span></span>
-                <span></span>
+        <div class="message-avatar">AI</div>
+        <div class="message-body">
+            <div class="message-content">
+                <div class="loading">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     `;
@@ -116,25 +121,40 @@ function addMessage(content, type, sources = null, isWelcome = false) {
     messageDiv.className = `message ${type}${isWelcome ? ' welcome-message' : ''}`;
     messageDiv.id = `message-${messageId}`;
     
-    // Convert markdown to HTML for assistant messages
     const displayContent = type === 'assistant' ? marked.parse(content) : escapeHtml(content);
-    
-    let html = `<div class="message-content">${displayContent}</div>`;
-    
-    if (sources && sources.length > 0) {
-        html += `
-            <details class="sources-collapsible">
-                <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
-            </details>
+
+    if (type === 'assistant') {
+        let bodyHtml = `<div class="message-content">${displayContent}</div>`;
+        if (sources && sources.length > 0) {
+            bodyHtml += `
+                <details class="sources-collapsible">
+                    <summary class="sources-header">Sources</summary>
+                    <div class="sources-content">${renderSources(sources)}</div>
+                </details>
+            `;
+        }
+        messageDiv.innerHTML = `
+            <div class="message-avatar">AI</div>
+            <div class="message-body">${bodyHtml}</div>
         `;
+    } else {
+        messageDiv.innerHTML = `<div class="message-content">${displayContent}</div>`;
     }
-    
-    messageDiv.innerHTML = html;
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
     
     return messageId;
+}
+
+function renderSources(sources) {
+    return sources.map(s => {
+        const label = typeof s === 'string' ? s : s.label;
+        const url = typeof s === 'object' ? s.url : null;
+        if (url) {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+        }
+        return escapeHtml(label);
+    }).join(', ');
 }
 
 // Helper function to escape HTML for user messages
@@ -174,7 +194,7 @@ async function loadCourseStats() {
                     .map(title => `<div class="course-title-item">${title}</div>`)
                     .join('');
             } else {
-                courseTitles.innerHTML = '<span class="no-courses">No courses available</span>';
+                courseTitles.innerHTML = '<span class="no-courses">No courses loaded yet. Add .txt files to the docs/ folder.</span>';
             }
         }
         

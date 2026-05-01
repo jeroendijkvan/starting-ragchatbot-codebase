@@ -46,25 +46,43 @@ body {
     padding: 0;
 }
 
-/* Header - Hidden */
+/* Header */
 header {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: none;
+    -webkit-text-fill-color: var(--text-primary);
     margin: 0;
 }
 
-.subtitle {
-    font-size: 0.95rem;
+.new-chat-btn {
+    padding: 0.4rem 0.875rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     color: var(--text-secondary);
-    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.new-chat-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
 }
 
 /* Main Content Area with Sidebar */
@@ -77,7 +95,7 @@ header h1 {
 
 /* Left Sidebar */
 .sidebar {
-    width: 320px;
+    width: 260px;
     background: var(--surface);
     border-right: 1px solid var(--border-color);
     padding: 1.5rem;
@@ -185,6 +203,30 @@ header h1 {
 
 .message.assistant {
     align-self: flex-start;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+.message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+    letter-spacing: 0;
+}
+
+.message-body {
+    flex: 1;
+    min-width: 0;
 }
 
 .message-content {
@@ -328,18 +370,23 @@ header h1 {
 
 /* Chat Input Container */
 .chat-input-container {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 2rem;
     background: var(--background);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
+/* Input Wrapper - positions send button inside the field */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 /* Chat Input */
 #chatInput {
-    flex: 1;
-    padding: 0.875rem 1.25rem;
+    width: 100%;
+    padding: 0.875rem 3.5rem 0.875rem 1.25rem;
     background: var(--surface);
     border: 1px solid var(--border-color);
     border-radius: 24px;
@@ -358,19 +405,23 @@ header h1 {
     color: var(--text-secondary);
 }
 
-/* Send Button */
+/* Send Button - floats inside the input */
 #sendButton {
-    padding: 0.75rem 1.25rem;
+    position: absolute;
+    right: 6px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 24px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    min-width: 52px;
+    flex-shrink: 0;
 }
 
 #sendButton:focus {
@@ -380,12 +431,11 @@ header h1 {
 
 #sendButton:hover:not(:disabled) {
     background: var(--primary-hover);
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 #sendButton:active:not(:disabled) {
-    transform: translateY(0);
+    transform: scale(0.95);
 }
 
 #sendButton:disabled {
@@ -713,6 +763,6 @@ details[open] .suggested-header::before {
 
 @media (max-width: 1024px) {
     .sidebar {
-        width: 280px;
+        width: 240px;
     }
 }
