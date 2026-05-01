@@ -1,8 +1,8 @@
-# Frontend Code Quality Changes
+# Frontend Changes
 
-## What was added
+## Code Quality Tooling (Prettier + ESLint)
 
-### Prettier (code formatter — frontend equivalent of black)
+### Prettier (code formatter)
 
 - `frontend/.prettierrc` — formatting rules: 100-char line width, single quotes, 2-space indent, trailing commas, LF line endings
 - `frontend/.prettierignore` — excludes `node_modules`
@@ -26,10 +26,27 @@
 - `scripts/frontend-format.sh` — installs deps if needed, then runs `npm run format`
 - `scripts/frontend-quality.sh` — installs deps if needed, then runs `npm run quality` (format check + lint)
 
-## Files formatted by Prettier on initial run
+## Dark/Light Theme Toggle
 
-| File | Result |
-|---|---|
-| `frontend/index.html` | reformatted |
-| `frontend/script.js` | reformatted |
-| `frontend/style.css` | reformatted |
+Added a dark/light theme toggle button to the header.
+
+### `frontend/index.html`
+- Wrapped `#newChatButton` in a new `.header-actions` flex container
+- Added `#themeToggleButton` with inline SVG sun/moon icons and accessibility attributes
+
+### `frontend/style.css`
+- Added `--code-bg` CSS variable to `:root` (dark default: `rgba(0,0,0,0.2)`)
+- Added `[data-theme="light"]` block with light theme variable overrides
+- Added smooth `transition` rule on `body, body *` (0.3s ease)
+- Added `.header-actions` and `.theme-toggle-btn` styles
+- CSS-driven sun/moon icon visibility with rotate+scale animation on switch
+- Replaced hardcoded `rgba(0, 0, 0, 0.2)` in code block rules with `var(--code-bg)`
+
+### `frontend/script.js`
+- Added `themeToggleButton` DOM reference
+- Added `initTheme()` (reads `localStorage`) and `toggleTheme()` (toggles `data-theme` on `<html>`)
+- Called `initTheme()` in `DOMContentLoaded` and wired toggle button click
+
+### Behaviour
+- Default theme is dark; clicking the toggle switches to light mode and persists to `localStorage`
+- All transitions are smooth (0.3s ease)
