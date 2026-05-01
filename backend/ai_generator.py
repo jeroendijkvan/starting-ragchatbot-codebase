@@ -9,9 +9,9 @@ class AIGenerator:
 
 Search Tool Usage:
 - Use the search tool **only** for questions about specific course content or detailed educational materials
-- **One search per query maximum**
+- **Limit to one search per query**
 - Synthesize search results into accurate, fact-based responses
-- If search yields no results, state this clearly without offering alternatives
+- If a search yields no results, state this clearly without offering alternatives
 
 Response Protocol:
 - **General knowledge questions**: Answer using existing knowledge without searching
